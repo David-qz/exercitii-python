@@ -1,0 +1,149 @@
+
+import os
+import time
+import random
+
+culori = {
+    "rosu": "\033[91m",
+    "verde": "\033[92m",
+    "galben": "\033[93m",
+    "albastru": "\033[94m",
+    "mov": "\033[95m",
+    "cyan": "\033[96m",
+    "alb": "\033[97m"
+}
+
+reset = "\033[0m"
+
+def curata():
+    os.system("cls" if os.name == "nt" else "clear")
+
+def linie(caracter, lungime):
+    print(caracter * lungime)
+
+def numaratoare(start, viteza, culoare, efect):
+    for i in range(start, 0, -1):
+        procent = ((start - i) / start) * 100
+        bara = int(procent / 5)
+
+        curata()
+
+        print(culori[culoare] + "\n")
+        linie("═", 40)
+        print("       NUMARATOARE INVERSA")
+        linie("═", 40)
+
+        print(f"\n             {i:03d}\n")
+
+        print("     [" + "█" * bara + "░" * (20 - bara) + "]")
+        print(f"             {procent:.0f}%")
+
+        if efect:
+            print("\n", random.choice(["★", "✦", "✧", "◆"]) * 15)
+
+        print(reset)
+
+        time.sleep(viteza)
+
+    curata()
+    print(culori[culoare] + "\n")
+    print("\nSTART!")
+    print(reset)
+
+def chenar(latime, inaltime, culoare):
+    print(culori[culoare])
+    print("╔" + "═" * (latime - 2) + "╗")
+
+    for i in range(inaltime - 2):
+        if i == (inaltime - 2) // 2:
+            text = "FORMA TA!"
+            text = text.center(latime - 2)
+            print("║" + text + "║")
+        else:
+            print("║" + " " * (latime - 2) + "║")
+
+    print("╚" + "═" * (latime - 2) + "╝")
+    print(reset)
+    if latime < 10 or inaltime < 3:
+        print("Dimensiuni invalide!")
+
+def meniu():
+    while True:
+        curata()
+
+        print("\033[96m")
+        linie("═", 40)
+        print("          MENIU PRINCIPAL")
+        linie("═", 40)
+
+        print("""
+        [1] Numărătoare inversă
+        [2] Desenează chenar
+        [3] Numărătoare + Chenar
+        [4] Efect vizual random
+        [5] Ieșire
+        """)
+
+        print("\033[97m")
+
+        optiune = input("Alege o opțiune: ")
+
+        if optiune == "5":
+            print("\nLa revedere!")
+            break
+
+        if optiune not in ["1", "2", "3", "4"]:
+            input("Opțiune invalidă! ENTER...")
+            continue
+
+        print("\nCulori disponibile:")
+        print(", ".join(culori.keys()))
+
+        culoare = input("Alege culoarea: ").lower()
+
+        if culoare not in culori:
+            culoare = "cyan"
+
+        if optiune in ["1", "3"]:
+            try:
+                start = int(input("De la ce număr să înceapă? "))
+                viteza = float(input("Viteza (secunde): "))
+
+                if start < 1 or start > 10000 or viteza < 0.01:
+                    raise ValueError
+
+                efect = input("Activezi efectele? (da/nu): ").lower() == "da"
+
+                numaratoare(start, viteza, culoare, efect)
+
+            except ValueError:
+                print("Valori invalide!")
+
+        if optiune in ["2", "3"]:
+            try:
+                latime = int(input("Lățimea chenarului: "))
+                inaltime = int(input("Înălțimea chenarului: "))
+
+                if latime < 10 or inaltime < 3:
+                    raise ValueError
+
+                chenar(latime, inaltime, culoare)
+
+            except ValueError:
+                print("Dimensiuni invalide!")
+
+        if optiune == "4":
+            curata()
+
+            for _ in range(15):
+                print(
+                    culori[culoare]
+                    + "".join(random.choice("01#*+@") for _ in range(60))
+                    + reset
+                )
+                time.sleep(0.15)
+
+        input("\nApasă ENTER pentru meniu...")
+
+
+meniu()

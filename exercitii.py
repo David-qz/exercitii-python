@@ -40,7 +40,7 @@ if varsta >= 22 and varsta < 70:
 if varsta >= 70:
     print("Ai o experiență de viață bogată! Sau..minți.. tu sa-mi spui ce simți!")
 
-raspuns = input("\nMinti sau nu? (da/nu): ")
+raspuns = input("\nMinți sau nu? (da/nu): ").strip().lower()
 if raspuns == "da":
     print("Aha! Am intuit eu că minți! Nu-i nimic, ești un om deosebit!")
 else:
