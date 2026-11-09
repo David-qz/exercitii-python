@@ -64,8 +64,7 @@ def chenar(latime, inaltime, culoare):
 
     print("╚" + "═" * (latime - 2) + "╝")
     print(reset)
-    if latime < 10 or inaltime < 3:
-        print("Dimensiuni invalide!")
+    
 
 def meniu():
     while True:
@@ -124,7 +123,7 @@ def meniu():
                 latime = int(input("Lățimea chenarului: "))
                 inaltime = int(input("Înălțimea chenarului: "))
 
-                if latime < 10 or inaltime < 3:
+                if latime < 12 or inaltime < 5:
                     raise ValueError
 
                 chenar(latime, inaltime, culoare)
